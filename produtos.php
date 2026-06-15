@@ -1,7 +1,6 @@
 <?php
 require 'conexao.php';
 
-// Busca todos os produtos do banco de dados em ordem decrescente (mais recentes primeiro)
 $result = $conn->query("SELECT * FROM produtos ORDER BY id DESC");
 ?>
 <!DOCTYPE html>

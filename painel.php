@@ -10,12 +10,12 @@ if (!isset($_SESSION['usuario_logado'])) {
 
 $mensagem = "";
 
-// Processa o cadastro de produto
+// CADASTRO DE PRODUTOS 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['acao']) && $_POST['acao'] == 'add_produto') {
     $nome = $_POST['nome'];
     $descricao = $_POST['descricao'];
     $preco = $_POST['preco'];
-    // Se não enviar imagem, usa a imagem do osso por padrão
+    // GERA IMAGEMM 
     $imagem = !empty($_POST['imagem']) ? $_POST['imagem'] : "https://images.unsplash.com/photo-1601595700762-c0e8fb263629?auto=format&fit=crop&w=400&q=80";
 
     $stmt = $conn->prepare("INSERT INTO produtos (nome, descricao, preco, imagem) VALUES (?, ?, ?, ?)");
@@ -27,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['acao']) && $_POST['aca
     }
 }
 
-// Processa o cadastro de usuário
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['acao']) && $_POST['acao'] == 'add_usuario') {
     $usuario = $_POST['usuario'];
     $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);

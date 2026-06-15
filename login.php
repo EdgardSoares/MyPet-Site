@@ -17,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_result($senha_hash);
         $stmt->fetch();
         
-        // Verifica se a senha digitada bate com a criptografada no banco
         if (password_verify($senha, $senha_hash)) {
             $_SESSION['usuario_logado'] = true;
             header("Location: painel.php");
