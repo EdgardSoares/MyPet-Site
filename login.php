@@ -1,16 +1,30 @@
 <?php
-// Simulação simples de validação de login
+session_start();
+require 'conexao.php';
+
 $erro = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $_POST["usuario"];
     $senha = $_POST["senha"];
 
-    // Usuário de teste: admin / Senha: 123
-    if ($usuario === "admin" && $senha === "123") {
-        // Redireciona para o painel administrativo
-        header("Location: painel.php");
-        exit;
+    $stmt = $conn->prepare("SELECT senha FROM usuarios WHERE usuario = ?");
+    $stmt->bind_param("s", $usuario);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($senha_hash);
+        $stmt->fetch();
+        
+        // Verifica se a senha digitada bate com a criptografada no banco
+        if (password_verify($senha, $senha_hash)) {
+            $_SESSION['usuario_logado'] = true;
+            header("Location: painel.php");
+            exit;
+        } else {
+            $erro = "Usuário ou senha incorretos!";
+        }
     } else {
         $erro = "Usuário ou senha incorretos!";
     }
